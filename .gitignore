@@ -3,5 +3,8 @@ __pycache__
 service_account.json
 secrets.toml
 .env
-.streamlit/secret.toml
+.streamlit/secrets.toml
 service_account.json
+*.docx
+*.tmp
+~$*
