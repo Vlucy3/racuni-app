@@ -90,19 +90,23 @@ def analyze_receipt_with_ai(input_data, mime_type):
 # --- FUNKCIJA 2: POVEZAVA Z GOOGLE SHEET ---
 def connect_and_setup():
     try:
-        gc = gspread.service_account(filename='service_account.json')
+        # TUKAJ JE SPREMEMBA: Beremo iz st.secrets, ne iz datoteke!
+        credentials = st.secrets["gcp_service_account"]
+        gc = gspread.service_account_from_dict(credentials)
+        
         try:
             LINK = st.secrets["SHEET_LINK"]
         except:
             st.error("Manjka link do tabele v secrets.toml!")
             st.stop()
+            
         sh = gc.open_by_url(LINK)
         ws = sh.get_worksheet(0)
         return ws
     except Exception as e:
         st.error(f"Napaka pri povezavi s tabelo: {e}")
         return None
-
+    
 # --- GLAVNI UI DEL APLIKACIJE ---
 st.title("💸 Beleženje računov")
 
